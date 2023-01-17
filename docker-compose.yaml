@@ -2,7 +2,10 @@ version: '3'
 
 services:
   nginx:
-    image: nginx:latest
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
+    image: victorlima1997/nginx
     container_name: nginx
     networks:
       - laranet
