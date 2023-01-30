@@ -9,17 +9,16 @@ const config = {
     database: 'nodedb'
 };
 
-//const connection = mysql.createConnection(config)
 
-//const sql = `INSERT INTO people(name) values('Victor')`
-//connection.query(sql)
-//connection.end()
 
 
 async function main(){
     //const mysql = require('mysql2')
+
     const mysql = require('mysql2/promise')
     const connection = await mysql.createConnection(config)
+    const sql = `INSERT INTO people(name) values('Victor')`
+    connection.query(sql)
     const [rows, fields] = await connection.execute('SELECT * FROM people')
     //connection.end()
     //console.log(rows)
@@ -27,7 +26,8 @@ async function main(){
 } 
 app.get('/', async (req, res) => {
     const result = await main()    
-    res.send(result)
+    res.send('<h1>Full Cycle Rocks</h1>'+JSON.stringify(result))
+   
  }
     )
 
