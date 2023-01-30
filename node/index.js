@@ -9,29 +9,25 @@ const config = {
     database: 'nodedb'
 };
 
-const mysql = require('mysql2')
-const connection = mysql.createConnection(config)
+//const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Victor')`
-connection.query(sql)
-connection.end()
+//const sql = `INSERT INTO people(name) values('Victor')`
+//connection.query(sql)
+//connection.end()
 
 
-app.get('/', (req, res) => {
-    const mysql = require('mysql2')
-    const connection = mysql.createConnection(config)
-    var result;
-    var result = await connection.query('SELECT * FROM people', (err, rows, fields) => {
-        if (err) throw err
-        result = rows;
-        console.log('The solution is: ', result[0].name)
-      })
-    connection.end()
-    console.log(result)
-    
-    res.send('hello'
-    //res.send('<h1>Full Cycle</h1><h2>hello</h2>'
-    )
+async function main(){
+    //const mysql = require('mysql2')
+    const mysql = require('mysql2/promise')
+    const connection = await mysql.createConnection(config)
+    const [rows, fields] = await connection.execute('SELECT * FROM people')
+    //connection.end()
+    //console.log(rows)
+    return rows     
+} 
+app.get('/', async (req, res) => {
+    const result = await main()    
+    res.send(result)
  }
     )
 
