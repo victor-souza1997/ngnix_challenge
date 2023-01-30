@@ -14,7 +14,6 @@ const config = {
 
 async function main(){
     //const mysql = require('mysql2')
-
     const mysql = require('mysql2/promise')
     const connection = await mysql.createConnection(config)
     const sql = `INSERT INTO people(name) values('Victor')`
@@ -26,7 +25,7 @@ async function main(){
 } 
 app.get('/', async (req, res) => {
     const result = await main()    
-    res.send('<h1>Full Cycle Rocks</h1>'+JSON.stringify(result))
+    res.send('<h1>Full Cycle Rocks!</h1>'+JSON.stringify(result))
    
  }
     )
