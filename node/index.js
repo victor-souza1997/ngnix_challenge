@@ -10,7 +10,13 @@ const config = {
 };
 
 
+const sqlQuery =  'CREATE TABLE IF NOT EXISTS people(id int not null auto_increment, name VARCHAR(250), PRIMARY KEY(id))';
 
+database.query(sqlQuery, (err) => {
+    if (err) throw err;
+
+    res.send('Table created!')
+});
 
 async function main(){
     //const mysql = require('mysql2')
