@@ -7,12 +7,12 @@ services:
       dockerfile: Dockerfile.prod
     image: victorlima1997/nginx
     container_name: nginx
+  #  entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     networks:
       - node-network
     ports:
       - "8080:8080"
-    depends_on:
-      - app
+    
       
   db:
     build:
@@ -35,7 +35,9 @@ services:
     build:
       context: ./node
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    # when add entrypoint to docker-compose, all the CMD in Dockerfile are 
+    #ignored, therefore it was necessary to add node index.js here
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 50s docker-entrypoint.sh node index.js 
     networks:
       - node-network
     volumes:
@@ -44,8 +46,6 @@ services:
     tty: true
     ports:
       - "3000:3000"
-    depends_on:
-      - db
 
 networks:
   node-network:
