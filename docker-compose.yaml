@@ -7,12 +7,13 @@ services:
       dockerfile: Dockerfile.prod
     image: victorlima1997/nginx
     container_name: nginx
+    depends_on:
+      - app
   #  entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     networks:
       - node-network
     ports:
       - "8080:8080"
-    
       
   db:
     build:
@@ -31,6 +32,7 @@ services:
       #- MYSQL_USER=root
     networks:
       - node-network
+  
   app:
     build:
       context: ./node
@@ -44,6 +46,8 @@ services:
       - ./node:/usr/src/app
       - /usr/src/app/node_modules
     tty: true
+    depends_on:
+      - db
     ports:
       - "3000:3000"
 
